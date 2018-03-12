@@ -1,2 +1,2 @@
-`./udpClient` - start client
-`./udpServer` - start server
+- `./udpClient` - start client
+- `./udpServer` - start server
