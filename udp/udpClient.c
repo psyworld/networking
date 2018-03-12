@@ -11,11 +11,11 @@
  
 int main(void)
 {
-    struct sockaddr_in si_other;
-    int    s, i;
-    int    slen = sizeof(si_other);
-    char   buf[BUF_SIZE];
-    char   message[BUF_SIZE];
+    struct      sockaddr_in si_other;
+    int         s, i;
+    socklen_t   slen = sizeof(si_other);
+    char        buf[BUF_SIZE];
+    char        message[BUF_SIZE];
  
 
     //create a socket

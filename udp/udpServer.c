@@ -23,10 +23,9 @@ int palindrome(char s[])
 int main(void)
 {
     struct sockaddr_in si_me, si_other;
-     
-    int  s, i;
-    int  slen = sizeof(si_other) , recv_len;
-    char buf[BUF_SIZE];
+    int        s, i;
+    socklen_t  slen = sizeof(si_other), recv_len;
+    char       buf[BUF_SIZE];
      
     //create an UDP socket
     if ((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
@@ -55,7 +54,7 @@ int main(void)
 
         memset(buf, '\0', sizeof(buf));
 
-        printf("Waiting for data...");
+        printf("Waiting for data...\n");
         fflush(stdout);
          
         //try to receive some data
@@ -68,18 +67,23 @@ int main(void)
         //print client details 
         //printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
         
-        if (palindrome(buf)) 
-            printf("\n%s is a palindrome.\n" , buf);
-        else 
-            printf("\n%s is not a palindrome.\n", buf);
-         
         //reply the client
-        if (sendto(s, buf, recv_len, 0, (struct sockaddr*) &si_other, slen) == -1)
+        if (palindrome(buf)) 
         {
-            perror("sendto()");
-            exit(1);
+            if (sendto(s, "YES", recv_len, 0, (struct sockaddr*) &si_other, slen) == -1)
+            {
+                perror("sendto()");
+                exit(1);
+            }
+        }    
+        else 
+        {
+            if (sendto(s, "NO", recv_len, 0, (struct sockaddr*) &si_other, slen) == -1)
+            {
+                perror("sendto()");
+                exit(1);
+            }
         }
-
     }
  
     close(s);
