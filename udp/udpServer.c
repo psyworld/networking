@@ -26,7 +26,7 @@ int main(void)
     int        s, i;
     socklen_t  slen = sizeof(si_other), recv_len;
     char       buf[BUF_SIZE];
-     
+    int        broadcast = 1
     //create an UDP socket
     if ((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
     {
