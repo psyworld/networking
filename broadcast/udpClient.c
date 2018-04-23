@@ -37,16 +37,15 @@ int main(int argc, char * argv[])
         exit(1);
     };
 
-    if (setsockopt(s, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval)) < 0)
-    {
-        perror("setsockopt");
-        exit(1);
-    };
-
-
     if (inet_aton("255.255.255.255", &saddr_server.sin_addr) == 0) 
     {
         perror("inet_aton()");
+        exit(1);
+    };
+
+    if (setsockopt(s, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval)) < 0)
+    {
+        perror("setsockopt");
         exit(1);
     };
 
@@ -68,7 +67,7 @@ int main(int argc, char * argv[])
         while(1)
         {
             //send the message
-            if (sendto(s, message, strlen(message) , 0 , (struct sockaddr *) &saddr_server, slen)==-1)
+            if (sendto(s, &data_req, sizeof(data_req) , 0 , (struct sockaddr *) &saddr_server_, slen)==-1)
             {
                 perror("sendto()");
                 exit(1);    
@@ -76,7 +75,7 @@ int main(int argc, char * argv[])
                      
             
             //try to receive some data
-            if (recvfrom(s, buf, BUF_SIZE, 0, (struct sockaddr *) &saddr_server, &slen) == -1)
+            if (recvfrom(s, &data_res, sizeof(data_res), 0, (struct sockaddr *) &saddr_server_, &slen) == -1)
             {
                 perror("recvfrom()");
                 exit(1);
