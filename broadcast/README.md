@@ -1,2 +1,2 @@
-- `./udpClient` - start client
-- `./udpServer` - start server
+- `./udpClient` PORT - start client
+- `./udpServer` PORT - start server
